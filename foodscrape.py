@@ -75,7 +75,7 @@ def yelp_main_scrape():
                 try:
                     not_page_one = f"https://www.yelp.com/search?cflt=restaurants&find_loc=Melbourne%2C%20Melbourne%20Victoria%2C%20Australia&start={page}"
                     [div, links] = find_div_links(not_page_one)
-                    names_links = find_link_name(links)
+                    names_links = find_links_names(links)
                     write_to_csv(names_links)
                     page += 10
                     if page != pages:
