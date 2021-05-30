@@ -25,7 +25,7 @@ def find_last_page(divs):
         return page_numbers
 
 
-def find_link_name(links):
+def find_links_names(links):
     names_links_list = []
     for link in links:
         if link['name'] != '':
@@ -39,14 +39,12 @@ def find_link_name(links):
 def write_to_csv(rows):
     fields = ['name', 'link']
     if os.path.isfile('yelp_name_links.csv'):
-        print('enters????')
         with open('yelp_name_links.csv', 'a') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=fields)
             for row in rows:
                 print(f"writing row name:{row['name']} link:{row['link']}")
                 writer.writerow(row)
     else:
-
         with open('yelp_name_links.csv', 'w') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=fields)
             for row in rows:
@@ -59,15 +57,13 @@ def yelp_main_scrape():
     page = 10
     run = True
     while run:
-        # if page number is 0 run scrape with first url and find total page numbers
         if pages == 0:
             url = 'https://www.yelp.com/search?cflt=restaurants&find_loc=Melbourne%2C+Melbourne+Victoria%2C+Australia'
             try:
                 [div, links] = find_div_links(url)
                 pages = find_last_page(div) * 10 - 10
                 print(pages)
-                names_links = find_link_name(links)
-                # append name and links to csv
+                names_links = find_links_names(links)
                 write_to_csv(names_links)
             except:
                 print("cannot execute")
@@ -75,7 +71,6 @@ def yelp_main_scrape():
                 run = False
 
         else:
-            # if page numbers is > 1 run scrape with subsequent urls
             while page < pages:
                 try:
                     not_page_one = f"https://www.yelp.com/search?cflt=restaurants&find_loc=Melbourne%2C%20Melbourne%20Victoria%2C%20Australia&start={page}"
@@ -85,7 +80,7 @@ def yelp_main_scrape():
                     page += 10
                     if page != pages:
                         print('sleeping.....')
-                        time.sleep(15)
+                        time.sleep(60)
                     else:
                         print("this is the last page")
                 except:
