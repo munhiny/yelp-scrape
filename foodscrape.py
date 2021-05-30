@@ -71,9 +71,9 @@ def yelp_main_scrape():
                 write_to_csv(names_links)
             except:
                 print("cannot execute")
-            finally:
                 print("exitting")
                 run = False
+
         else:
             # if page numbers is > 1 run scrape with subsequent urls
             while page < pages:
@@ -90,7 +90,6 @@ def yelp_main_scrape():
                         print("this is the last page")
                 except:
                     print('cannot execute')
-                finally:
                     print("exitting")
                     run = False
             run = False
